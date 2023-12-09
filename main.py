@@ -1,6 +1,5 @@
 from googletrans import Translator
 import PyPDF2
-import pdfreader
 
 def pdf_to_text(pdf_path):
     with open(pdf_path, 'rb') as pdf_file:
