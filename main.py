@@ -7,7 +7,7 @@ import os
 input_pdf = input("Lütfen çevirmek istediğiniz PDF dosyasının tam yolunu girin: ")
 
 # Çıktı klasörü ve dosya adını ayarlama
-output_dir = "/Users/mehmetsenel/Desktop/translate/deneme-sonuç"
+output_dir = "/Users/mehmetsenel/Desktop/translate/output(tr)"
 if not os.path.exists(output_dir):  # Çıktı klasörü yoksa oluştur
     os.makedirs(output_dir)
 
@@ -38,7 +38,7 @@ def translate_pdf(input_pdf, output_pdf):
 
         # Sayfa boyutunu artırma
         pdf.add_page(format='letter')  # Sayfa boyutunu letter (A4'den biraz büyük) yapar
-        pdf.add_font('DejaVu', '', 'DejaVuSans.ttf')  # Fontu ekliyoruz
+        pdf.add_font('DejaVu', '', '/Users/mehmetsenel/Desktop/translate/DejaVuSans.ttf')  # Fontu ekliyoruz
         pdf.set_font('DejaVu', size=8)  # Font boyutunu küçültme
 
         # Sayfa kenarlarını küçültme
@@ -54,27 +54,39 @@ def translate_pdf(input_pdf, output_pdf):
             text = page.get_text("text")  # Sayfadaki metni al
             translated_text = translate_text(text)  # Metni Türkçeye çevir
 
-            # Metnin genişliğini kontrol et
+            # Sayfa ekleyin ve metni yerleştirin
+            pdf.add_page(format='letter')
             pdf.set_xy(pdf.l_margin, pdf.get_y())  # Başlangıç noktasına gel
             pdf.multi_cell(page_width, 10, translated_text)  # Sayfa genişliğine göre metni kırma
 
-            # Orijinal grafikleri eklemek için PyMuPDF'i kullanın
+            # Orijinal görselleri sayfaya eklemek için işlemleri başlat
             images = page.get_images(full=True)
             for img_index, img in enumerate(images):
-                xref = img[0]
-                base_image = doc.extract_image(xref)
-                image_bytes = base_image["image"]
-                img_name = f"temp_image_{page_num}_{img_index}.png"
-                
-                # Geçici olarak resmi kaydedin
-                with open(img_name, "wb") as img_file:
-                    img_file.write(image_bytes)
-                
-                # Görüntüyü PDF sayfasına ekleyin
-                pdf.image(img_name, x=10, y=None, w=100)
-                
-                # Geçici dosyayı silin
-                os.remove(img_name)
+                try:
+                    # Görselin xref değeri
+                    xref = img[0]
+                    base_image = doc.extract_image(xref)
+
+                    if "image" in base_image:  # Görsel verisi mevcutsa işleme
+                        image_bytes = base_image["image"]
+                        img_name = f"temp_image_{page_num}_{img_index}.png"
+                        
+                        # Geçici olarak resmi kaydedin
+                        with open(img_name, "wb") as img_file:
+                            img_file.write(image_bytes)
+                        
+                        # Görüntüyü PDF sayfasına ekleyin
+                        img_rect = fitz.Rect(img[2], img[3], img[4], img[5])  # Görselin boyutlarını al
+                        img_width = img_rect.width
+                        img_height = img_rect.height
+                        
+                        # Görselleri küçük boyutlandırarak ekliyoruz
+                        pdf.image(img_name, x=img_rect.x0, y=pdf.get_y(), w=img_width * 0.75, h=img_height * 0.75)
+
+                        # Geçici dosyayı silin
+                        os.remove(img_name)
+                except Exception as e:
+                    print(f"Resim işleme sırasında hata oluştu: {e}")
 
         # Çıktıyı kaydet
         pdf.output(output_pdf)
