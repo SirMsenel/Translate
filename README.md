@@ -30,6 +30,5 @@ pip install PyPDF2 googletrans==4.0.0rc1
 
 Orijinal PDF (İngilizce)	Çevirilen PDF (Türkçe)
 
-
 ## 📎 Notlar
 - Bu proje, eğitim amaçlı geliştirilmiştir ve İngilizce-Türkçe çevirilerde optimize edilmiştir. Daha karmaşık PDF düzenleri veya diğer diller için sınırlamalar olabilir.
