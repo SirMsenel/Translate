@@ -18,18 +18,18 @@ Kütüphaneleri yüklemek için:
 
 ```bash
 pip install PyPDF2 googletrans==4.0.0rc1
+```
 
+## 📖 Kullanım
+- Çevirmek istediğiniz PDF dosyasını proje klasörüne ekleyin.
+- main.py dosyasını çalıştırarak çeviri işlemini başlatın:
+- Çevrilen PDF dosyası, çıktı klasöründe kaydedilecektir.
 
-📖 Kullanım
-Çevirmek istediğiniz PDF dosyasını proje klasörüne ekleyin.
-
-main.py dosyasını çalıştırarak çeviri işlemini başlatın:
-
-Çevrilen PDF dosyası, çıktı klasöründe kaydedilecektir.
-
-📌 Örnek Çıktı
-Çevirinin sonunda, orijinal PDF düzenini koruyarak Türkçeye çevrilmiş bir çıktı dosyası elde edersiniz.
+## 📌 Örnek Çıktı
+- Çevirinin sonunda, orijinal PDF düzenini koruyarak Türkçeye çevrilmiş bir çıktı dosyası elde edersiniz.
 
 Orijinal PDF (İngilizce)	Çevirilen PDF (Türkçe)
-📎 Notlar
-Bu proje, eğitim amaçlı geliştirilmiştir ve İngilizce-Türkçe çevirilerde optimize edilmiştir. Daha karmaşık PDF düzenleri veya diğer diller için sınırlamalar olabilir.
+
+
+## 📎 Notlar
+- Bu proje, eğitim amaçlı geliştirilmiştir ve İngilizce-Türkçe çevirilerde optimize edilmiştir. Daha karmaşık PDF düzenleri veya diğer diller için sınırlamalar olabilir.
